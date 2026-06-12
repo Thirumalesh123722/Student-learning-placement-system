@@ -11,20 +11,26 @@ const connectDB = async () => {
   const envUri = process.env.MONGO_URI;
 
   try {
+    // If an environment URI is provided, try it first but don't exit on failure
     if (envUri && (envUri.startsWith("mongodb://") || envUri.startsWith("mongodb+srv://"))) {
-      await mongoose.connect(envUri);
-      console.log("MongoDB Connected (env MONGO_URI)");
-      return;
+      try {
+        await mongoose.connect(envUri);
+        console.log("MongoDB Connected (env MONGO_URI)");
+        return;
+      } catch (envErr) {
+        console.warn("Failed to connect using MONGO_URI:", envErr.message);
+        console.warn("Falling back to local or in-memory MongoDB for development.");
+      }
     }
 
-    // Try local MongoDB first
+    // Try local MongoDB next
     const localUri = "mongodb://localhost:27017/smart_learning";
     try {
       await mongoose.connect(localUri);
       console.log("MongoDB Connected (localhost)");
       return;
     } catch (localErr) {
-      console.warn("Local MongoDB not available, starting in-memory MongoDB for dev");
+      console.warn("Local MongoDB not available, will try in-memory MongoDB");
     }
 
     // Fall back to in-memory MongoDB for fast local dev (no Docker required)
@@ -42,7 +48,7 @@ const connectDB = async () => {
     // Keep mongod reference alive so it doesn't shut down while the app runs
     process._mongod = mongod;
   } catch (error) {
-    console.log(error.message);
+    console.error("Unexpected error connecting to MongoDB:", error.message || error);
     process.exit(1);
   }
 };
