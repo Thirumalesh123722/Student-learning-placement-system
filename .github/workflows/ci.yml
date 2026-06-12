@@ -1,3 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: |
+          npm ci
+
+      - name: Install frontend dependencies and build
+        working-directory: ./frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Lint (optional)
+        run: echo "Add lint/test steps as needed"
 name: CI and Optional Deploy
 
 on:

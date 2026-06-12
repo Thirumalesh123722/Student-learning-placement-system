@@ -1,5 +1,32 @@
 # Smart Learning Placement System
 
+Full-stack application (Express + MongoDB backend, React frontend) for managing courses, assignments, jobs, and applications.
+
+Quick start (development):
+
+1. Backend
+
+```powershell
+cd backend
+npm install
+# Set MongoDB URI for Atlas or leave blank to use in-memory DB for development
+$env:MONGO_URI='mongodb+srv://THIRU:thiru123@cluster0.awjfmvo.mongodb.net/?appName=Cluster0'
+npm run dev
+```
+
+2. Frontend
+
+```powershell
+cd frontend
+npm install
+npm start
+```
+
+Notes:
+- If you want to use MongoDB Atlas, whitelist your machine IP in Atlas Network Access.
+- Do not commit `.env` with secrets; use environment variables or CI secrets.
+# Smart Learning Placement System
+
 This repository contains a MERN application (Express + MongoDB backend, React frontend) for coursework, job postings, enrollments, submissions, and job applications.
 
 Quick start (development)
