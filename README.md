@@ -10,7 +10,7 @@ Quick start (development):
 cd backend
 npm install
 # Set MongoDB URI for Atlas or leave blank to use in-memory DB for development
-$env:MONGO_URI='mongodb+srv://THIRU:thiru123@cluster0.awjfmvo.mongodb.net/?appName=Cluster0'
+$env:MONGO_URI=
 npm run dev
 ```
 
